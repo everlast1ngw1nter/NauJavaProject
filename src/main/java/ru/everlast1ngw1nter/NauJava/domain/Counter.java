@@ -1,69 +1,61 @@
 package ru.everlast1ngw1nter.NauJava.domain;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.everlast1ngw1nter.NauJava.database.CrudRepository;
+import ru.everlast1ngw1nter.NauJava.database.ConsumedProductRepository;
+import ru.everlast1ngw1nter.NauJava.database.ProductRepository;
 import ru.everlast1ngw1nter.NauJava.models.ConsumedProduct;
 import ru.everlast1ngw1nter.NauJava.models.Product;
 
 @Service
 public class Counter implements CalorieCounter {
 
-    private final CrudRepository<Product, Long> productDb;
+    private final ProductRepository productDb;
 
-    // пока оставил так, чтобы больше соотвествовало тз задания (потом сделаю также как для Product)
-    private final List<ConsumedProduct> consumedProducts;
+    private final ConsumedProductRepository consumedProductDb;
 
     @Autowired
-    public Counter(CrudRepository<Product, Long> productDb) {
+    public Counter(ProductRepository productDb, ConsumedProductRepository consumedProductDb) {
         this.productDb = productDb;
-        consumedProducts = new ArrayList<>();
+        this.consumedProductDb = consumedProductDb;
     }
 
     @Override
     public void addConsumedProduct(String productName, LocalDate date) {
-        var product = productDb.getById(getProductId(productName));
-        consumedProducts.add(new ConsumedProduct(product, date));
+        var product = productDb.getByName(productName);
+        consumedProductDb.save(new ConsumedProduct(product, date, null));
     }
 
     @Override
     public int getCaloriesByProduct(String productName) {
-        var product = productDb.getById(getProductId(productName));
+        var product = productDb.getByName(productName);
         return product.getCalories();
     }
 
     @Override
     public int getCaloriesByDate(LocalDate date) {
-        return consumedProducts
+        return consumedProductDb.getConsumedProductByConsumedDateBetween(date, date)
                 .stream()
-                .filter(pr -> pr.getConsumedDate().isEqual(date))
-                .mapToInt(Product::getCalories)
+                .mapToInt(x -> x.getProduct().getCalories())
                 .sum();
     }
 
     @Override
     public int getCaloriesByInterval(LocalDate startDate, LocalDate endDate) {
-        return consumedProducts
+        return consumedProductDb.getConsumedProductByConsumedDateBetween(startDate, endDate)
                 .stream()
-                .filter(pr -> pr.getConsumedDate().isAfter(startDate) && pr.getConsumedDate().isBefore(endDate))
-                .mapToInt(Product::getCalories)
+                .mapToInt(x -> x.getProduct().getCalories())
                 .sum();
     }
 
     @Override
-    public void addNewProduct(String newProductName, int calories) {
-        productDb.add(new Product(getProductId(newProductName), newProductName, calories));
+    public void addProduct(String newProductName, int calories) {
+        productDb.save(new Product(newProductName, calories));
     }
 
     @Override
-    public void deleteProduct(String newProductName) {
-        productDb.deleteById(getProductId(newProductName));
-    }
-
-    private long getProductId(String productName) {
-        return productName.hashCode();
+    public void deleteProductByName(String productName) {
+        productDb.deleteByName(productName);
     }
 }

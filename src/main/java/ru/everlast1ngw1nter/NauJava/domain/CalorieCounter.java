@@ -12,9 +12,9 @@ public interface CalorieCounter {
 
     int getCaloriesByInterval(LocalDate startDate, LocalDate endDate);
 
-    void addNewProduct(String newProductName, int calories);
+    void addProduct(String newProductName, int calories);
 
-    void deleteProduct(String newProductName);
+    void deleteProductByName(String productName);
 
     default void addTodayConsumedProduct(String productName) {
         addConsumedProduct(productName, LocalDate.now());
