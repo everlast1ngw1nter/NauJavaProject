@@ -2,6 +2,7 @@ package ru.everlast1ngw1nter.NauJava.models;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name = "tbl_users")
 public class User {
@@ -13,12 +14,21 @@ public class User {
     @Column(unique = true)
     private String name;
 
+    private String password;
+
     private Integer height;
 
     private Integer weight;
 
+    private Role role;
+
 
     public User() {
+    }
+
+    public User(String name, String password) {
+        this.name = name;
+        this.password = password;
     }
 
     public User(String name, Integer height, Integer weight) {
@@ -57,5 +67,21 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
