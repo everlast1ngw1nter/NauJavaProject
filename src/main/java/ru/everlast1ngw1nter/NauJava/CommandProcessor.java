@@ -22,7 +22,7 @@ public class CommandProcessor
         {
             case "create" ->
             {
-                counter.addNewProduct((cmd[1]), Integer.parseInt(cmd[2]));
+                counter.addProduct((cmd[1]), Integer.parseInt(cmd[2]));
                 System.out.println("Продукт добавлен в каталог");
             }
             case "add_consumed_today" ->
@@ -37,7 +37,7 @@ public class CommandProcessor
             }
             case "delete" ->
             {
-                counter.deleteProduct((cmd[1]));
+                counter.deleteProductByName((cmd[1]));
                 System.out.println("Продукт удален из каталога");
             }
             case "get_calories" ->

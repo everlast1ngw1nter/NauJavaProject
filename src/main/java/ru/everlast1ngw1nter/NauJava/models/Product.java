@@ -1,17 +1,28 @@
 package ru.everlast1ngw1nter.NauJava.models;
 
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "tbl_products")
 public class Product {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private String name;
 
     private int calories;
 
-    public Product(long id, String name, int calories) {
-        this.id = id;
+    public Product() {
+    }
+
+    public Product(String name, int calories) {
         this.name = name;
         this.calories = calories;
     }
+
 
     public long getId() {
         return id;

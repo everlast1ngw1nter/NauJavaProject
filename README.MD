@@ -5,4 +5,6 @@
 2. get_calories milk
 3. add_consumed_today milk
 4. get_calories_by_date 2024-10-03
-5. get_calories_by_interval 2024-10-03 2024-10-05
+
+## ER-диаграмма
+https://dbdiagram.io/d/6707da0497a66db9a38d1eb6
