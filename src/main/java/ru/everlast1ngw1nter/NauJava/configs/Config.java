@@ -17,18 +17,18 @@ public class Config {
     public CommandLineRunner commandScanner() {
         return args ->
         {
-            try (Scanner scanner = new Scanner(System.in)) {
-                System.out.println("Введите команду. 'exit' для выхода.");
-                while (true) {
-                    System.out.print("> ");
-                    String input = scanner.nextLine();
-                    if ("exit".equalsIgnoreCase(input.trim())) {
-                        System.out.println("Выход из программы...");
-                        break;
-                    }
-                    commandProcessor.processCommand(input);
-                }
-            }
+//            try (Scanner scanner = new Scanner(System.in)) {
+//                System.out.println("Введите команду. 'exit' для выхода.");
+//                while (true) {
+//                    System.out.print("> ");
+//                    String input = scanner.nextLine();
+//                    if ("exit".equalsIgnoreCase(input.trim())) {
+//                        System.out.println("Выход из программы...");
+//                        break;
+//                    }
+//                    commandProcessor.processCommand(input);
+//                }
+//            }
         };
     }
 }
